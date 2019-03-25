@@ -1,0 +1,37 @@
+Options +FollowSymLinks
+IndexIgnore */*
+RewriteEngine on
+
+# Если запрос начинается с /admin, то заменяем на /back/web/
+RewriteCond %{REQUEST_URI} ^/admin
+RewriteRule ^admin\/?(.*) /back/web/$1
+
+RewriteCond %{REQUEST_URI} ^/phone
+RewriteRule ^phone\/?(.*) /mobile/web/$1
+
+RewriteCond %{REQUEST_URI} ^/socket$
+RewriteRule . /socket.php
+RewriteCond %{REQUEST_URI} ^/client$
+RewriteRule . /client.php
+ 
+# Добавляем другой запрос /app/web/$1
+RewriteCond %{REQUEST_URI} !^/(app/web|back/web|mobile/web|admin|phone|socket|client)
+RewriteRule (.*) /app/web/$1 
+ 
+# Если app запрос
+RewriteCond %{REQUEST_URI} ^/app/web
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /app/web/index.php
+ 
+# Если back запрос
+RewriteCond %{REQUEST_URI} ^/back/web
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /back/web/index.php
+
+# Если mobile запрос
+RewriteCond %{REQUEST_URI} ^/mobile/web
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /mobile/web/index.php

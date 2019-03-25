@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../sass/const.scss"
+    ],
+    "names": [],
+    "file": "const.min.css"
+}
