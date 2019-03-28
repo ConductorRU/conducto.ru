@@ -14,9 +14,9 @@ Vue.component('chat', {
   },
   props: ["messages"],
   template:`<div>
-    <div v-for="mes in messages">
-      <div>Name: {{mes.username}}</div>
-      <div>Age: {{mes.text}}</div>
+    <div class="post" v-for="mes in messages">
+      <div class="name">{{mes.username}}</div>
+      <div class="text">{{mes.text}}</div>
     </div>
     </div>`
 });
@@ -25,16 +25,16 @@ var chat = new Vue({
   data: {
     messages: [
     {
-      username: 'Tom',
-      text: 18
+      username: 'Аноним 1',
+      text: 'Текст'
     },
     {
-      username: 'Bob',
-      text: 23
+      username: 'Аноним 2',
+      text: 'Текст'
     },
     {
-      username: 'Alice',
-      text: 21
+      username: 'Аноним 1',
+      text: 'Текст'
     }]
   },
   methods:

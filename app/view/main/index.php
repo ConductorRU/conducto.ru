@@ -8,7 +8,7 @@
 			<chat :messages="messages"></chat>
 		</div>
 		<div class="mesBox">
-			<div class="mesInput scroll" contenteditable>wewe</div>
+			<div class="mesInput scroll" contenteditable></div>
 		</div>
 		<div class="mesActs">
 			<span><i class="fa fa-paper-plane"></i></span>
