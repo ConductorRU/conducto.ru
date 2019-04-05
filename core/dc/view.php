@@ -15,20 +15,17 @@ class View
 	public $code = ['', ''];
 	private function printAdds($n)
 	{
-		$web = DC::$app->GetConfig('web');
 		$t = '?' . DC::$app->version;
-		if($web != '')
-			$web = '/' . $web;
 		foreach($this->adds[$n] as $c)
 		{
 			if($c['type'] == 'css')
 				echo '<style type="text/css">' . $c['text'] . '</style>';
 			if($c['type'] == 'css_file')
-				echo '<link rel="stylesheet" type="text/css" href="' . $web . '/css/' . $c['text'] . $t . '">';
+				echo '<link rel="stylesheet" type="text/css" href="'. '/css/' . $c['text'] . $t . '">';
 			if($c['type'] == 'js')
 				echo '<script>' . $c['text'] . '</script>';
 			if($c['type'] == 'js_file')
-				echo '<script src="' . $web . '/js/' . $c['text'] . $t . '"></script>';
+				echo '<script src="' . '/js/' . $c['text'] . $t . '"></script>';
 		}
 	}
 	public function __construct($cn, $view)
@@ -42,16 +39,12 @@ class View
 	}
 	public function head()
 	{
-		$t = '?' . DC::$app->version;
-		if(isset(DC::$app->config['js']))
-			foreach(DC::$app->config['js'] as $k => $js)
-				if(is_numeric($k))
-					echo '<script src="' . $js . $t . '"></script>' . "\n";
-				else if(isset($js['pos']) && $js['pos'] == View::HEAD)
-					echo '<script src="' . $k . $t . '"></script>' . "\n";
-		if(isset(DC::$app->config['css']))
-			foreach(DC::$app->config['css'] as $css)
-				echo '<link rel="stylesheet" type="text/css" href="' . $css . $t . '">' . "\n";	
+		$js = DC::$app->config->GetJS(View::HEAD);
+		$css = DC::$app->config->GetCSS();
+		foreach($js as $f)
+			echo '<script src="' . $f . '"></script>' . "\n";
+		foreach($css as $f)
+			echo '<link rel="stylesheet" type="text/css" href="' . $f . '">' . "\n";	
 		$this->printAdds(0);
 	}
 	public function beginBody()
@@ -63,11 +56,9 @@ class View
 	{
 		echo $this->code[1];
 		$this->printAdds(2);
-		$t = '?' . DC::$app->version;
-		if(isset(DC::$app->config['js']))
-			foreach(DC::$app->config['js'] as $k => $js)
-				if(isset($js['pos']) && $js['pos'] == View::END)
-					echo '<script src="' . $k . $t . '"></script>' . "\n";
+		$js = DC::$app->config->GetJS(View::END);
+		foreach($js as $f)
+			echo '<script src="' . $f . '"></script>' . "\n";
 		/*if(count($this->ready))
 		{
 			echo '<script> $(document).ready(function() {' . "\n\r";

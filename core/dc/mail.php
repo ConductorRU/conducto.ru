@@ -14,7 +14,7 @@ class View
 	public $ready = [];
 	private function printAdds($n)
 	{
-		$web = DC::$app->GetConfig('web');
+		$web = DC::$app->config->Get('web');
 		if($web != '')
 			$web = '/' . $web;
 		foreach($this->adds[$n] as $c)

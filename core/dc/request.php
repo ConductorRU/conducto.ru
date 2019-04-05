@@ -9,7 +9,7 @@ class Request
 	function __construct()
 	{
 		$this->uri = $_SERVER['REQUEST_URI'];
-		$this->uri = preg_replace('/^\/' . DC::$app->GetConfig('web') . '/', '', $this->uri);
+		$this->uri = preg_replace('/^\/' . DC::$app->config->Get('web') . '/', '', $this->uri);
 		$v = explode('?', $this->uri);
 		$this->url = preg_replace('/^\//', '', $v[0]);
 		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')

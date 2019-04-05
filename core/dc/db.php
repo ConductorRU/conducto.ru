@@ -20,12 +20,12 @@ class DB
 		$f = new DBTable;
 		$f->fields = $fields;
 		$f->incField = $incField;
-		$cacheTable[$tableName] = $f;
+		static::$cacheTable[$tableName] = $f;
 		return $f;
 	}
 	public function GetTableToCache($tableName)
 	{
-		return isset($cacheTable[$tableName]) ? $cacheTable[$tableName] : null;
+		return isset(static::$cacheTable[$tableName]) ? static::$cacheTable[$tableName] : null;
 	}
 	public function e($t)
 	{
@@ -63,10 +63,10 @@ class DB
 	}
 	public function GetColumns($table)
 	{
-		if(isset($tableData[$table]))
-			return $tableData[$table];
+		if(isset($this->tableData[$table]))
+			return $this->tableData[$table];
 		$rows = $this->query('SHOW COLUMNS FROM `' . $table . '`')->fetch_all(MYSQLI_ASSOC);
-		$tableData[$table] = $rows;
+		$this->tableData[$table] = $rows;
 		return $rows;
 	}
 	public function IsTable($table)

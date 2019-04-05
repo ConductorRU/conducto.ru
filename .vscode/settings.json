@@ -6,5 +6,6 @@
         "extensionName": ".min.css",
         "savePath": "~/../css/"
     }
-]
+],
+"php.suggest.basic": false
 }
