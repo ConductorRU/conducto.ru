@@ -9,13 +9,13 @@ class DB
 {
 	private $tableData = [];
 	public $sql;
-	public $cacheTable = [];
+	static public $cacheTable = [];
 	public function __construct($localhost, $user, $password, $dbname)
 	{
 		$this->sql = new \mysqli($localhost, $user, $password, $dbname);
 		$this->sql->set_charset('utf8');
 	}
-	public function SetTableToCache($tableName, $fields, $incField = '')
+	public static function SetTableToCache($tableName, $fields, $incField = '')
 	{
 		$f = new DBTable;
 		$f->fields = $fields;
@@ -23,9 +23,27 @@ class DB
 		static::$cacheTable[$tableName] = $f;
 		return $f;
 	}
-	public function GetTableToCache($tableName)
+	public static function GetTableToCache($tableName)
 	{
 		return isset(static::$cacheTable[$tableName]) ? static::$cacheTable[$tableName] : null;
+	}
+	public function GetTableData($tableName)
+	{
+		$table = DB::GetTableToCache($tableName);
+		if(!$table)
+		{
+			$cols = $this->GetColumns($tableName);
+			$incField = '';
+			$fields = [];
+			foreach($cols as $col)
+			{
+				if($col['Extra'] =='auto_increment')
+					$incField = $col['Field'];
+				$fields[$col['Field']] = null;
+			}
+			$table = DB::SetTableToCache($tableName, $fields, $incField);
+		}
+		return $table;
 	}
 	public function e($t)
 	{

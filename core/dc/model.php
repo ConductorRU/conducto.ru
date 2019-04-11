@@ -11,22 +11,7 @@ class Model
 		$db = DC::$app->db;
 		$class = self::GetTableName();
 		if($db->IsTable($class))
-		{
-			$this->table = $db->GetTableToCache($class);
-			if(!$this->table)
-			{
-				$cols = $db->GetColumns($class);
-				$incField = '';
-				$fields = [];
-				foreach($cols as $col)
-				{
-					if($col['Extra'] =='auto_increment')
-						$incField = $col['Field'];
-					$fields[$col['Field']] = null;
-				}
-				$this->table = $db->SetTableToCache($class, $fields, $incField);
-			}
-		}
+			$this->table = $db->GetTableData($class);
 		$this->tableName = $class;
 	}
 	public static function IsExist()

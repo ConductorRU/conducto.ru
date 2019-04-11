@@ -85,7 +85,49 @@ var upd =
 		});
 	}
 }
-$(document).prepare(function()
-{
-	$("#name").click(function() {$(this).find('+ .tip').html("");} );
+
+var vUpdate = new Vue({
+  el: "#vUpdate",
+	data:
+	{
+		updateName: '',
+		items: [{ name: 'Foo', val:1 },],
+  },
+  methods:
+  {
+		Create: function()
+		{
+			axios.post('/admin/post/update/create', {name: this.updateName}).then(response =>
+			{
+				this.items = response.data.files;
+				console.log(response);
+			}).catch(e => {});
+		},
+		Update: function()
+		{
+			axios.post('/admin/post/update/update').then(response =>
+				{
+					this.items = response.data.files;
+				}).catch(e => {});
+		},
+		Delete: function(num)
+		{
+			if(window.confirm('Вы действительно хотите удалить файл "' + this.items[num].name + '"?'))
+			{
+				axios.post('/admin/post/update/delete', {name: this.items[num].name}).then(response =>
+				{
+					if(response.data.r)
+						this.items = response.data.files;
+					console.log(response);
+				}).catch(e => {});
+			}
+		},
+		Down: function(num)
+		{
+			if(window.confirm('Вы действительно хотите отменить обновление "' + this.items[num].name + '"?'))
+			{
+				axios.post('/admin/post/update/down', {name: this.items[num].name}).then(response => {console.log(response);}).catch(e => {});
+			}
+		}
+  }
 });

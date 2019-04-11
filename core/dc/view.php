@@ -16,16 +16,18 @@ class View
 	private function printAdds($n)
 	{
 		$t = '?' . DC::$app->version;
+		$web = DC::$app->config->Get('web');
+		$web = $web ? '/' . $web : '';
 		foreach($this->adds[$n] as $c)
 		{
 			if($c['type'] == 'css')
 				echo '<style type="text/css">' . $c['text'] . '</style>';
 			if($c['type'] == 'css_file')
-				echo '<link rel="stylesheet" type="text/css" href="'. '/css/' . $c['text'] . $t . '">';
+				echo '<link rel="stylesheet" type="text/css" href="'. $web . '/css/' . $c['text'] . $t . '">';
 			if($c['type'] == 'js')
 				echo '<script>' . $c['text'] . '</script>';
 			if($c['type'] == 'js_file')
-				echo '<script src="' . '/js/' . $c['text'] . $t . '"></script>';
+				echo '<script src="' . $web . '/js/' . $c['text'] . $t . '"></script>';
 		}
 	}
 	public function __construct($cn, $view)
@@ -59,13 +61,13 @@ class View
 		$js = DC::$app->config->GetJS(View::END);
 		foreach($js as $f)
 			echo '<script src="' . $f . '"></script>' . "\n";
-		/*if(count($this->ready))
+		if(count($this->ready))
 		{
-			echo '<script> $(document).ready(function() {' . "\n\r";
+			echo '<script> window.addEventListener("load", function(event) {' . "\n\r";
 			foreach($this->ready as $c)
 				echo $c . "\n\r";
 			echo '});</script>';
-		}*/
+		}
 	}
 	public function addCode($code, $isEnd = 1)
 	{

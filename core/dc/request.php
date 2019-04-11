@@ -18,7 +18,8 @@ class Request
 			$this->params = $_GET;
 		else if($_SERVER['REQUEST_METHOD'] == 'POST')
 		{
-			$this->params = array_merge($_GET, $_POST);
+			$json = json_decode(file_get_contents('php://input'), true);
+			$this->params = $json ? array_merge($_GET, $_POST, $json) : array_merge($_GET, $_POST);
 			$this->isPost = true;
 		}
 	}

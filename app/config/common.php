@@ -15,7 +15,7 @@ $config =
 			'localhost' => 'localhost',
 			'user' => 'c1vk',
 			'password' => 'Vkon@2016#tra',
-			'database' => 'c1conductor_test'
+			'database' => 'c1conductor_old'
 		]
 	],
 	'js' => ['js/vue.min.js', 'js/axios.min.js'],
