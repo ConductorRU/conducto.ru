@@ -1,5 +1,5 @@
 <?php
-$config =
+$common =
 [
 	'sql' =>
 	[
@@ -8,18 +8,11 @@ $config =
 			'localhost' => 'localhost',
 			'user' => 'c1vk',
 			'password' => 'Vkon@2016#tra',
-			'database' => 'c1conductor'
-		],
-		'oldb' =>
-		[
-			'localhost' => 'localhost',
-			'user' => 'c1vk',
-			'password' => 'Vkon@2016#tra',
-			'database' => 'c1conductor_old'
+			'database' => 'c1vk'
 		]
 	],
-	'js' => ['js/vue.min.js', 'js/axios.min.js'],
-	'css' => ['fa5/css/all.min.css', 'css/common.min.css'],
-	'root' => 'conductor.ga',
+	'js' => ['js/jquery-3.2.1.min.js', 'js/common.js'],
+	'css' => ['fa5/css/all.min.css', 'css/common.css'],
+	'root' => 'chronopolis.ru',
 	'userClass' => 'app\model\User'
 ];

@@ -1,0 +1,30 @@
+#fadePhoto {display:none;z-index:100;position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0, 0, 0, 0.75);overflow:auto;}
+#fadePhoto > div {max-width:600px;margin:20px auto;}
+#fadePhoto > div > div {position:relative;background:#fff;padding:10px;}
+#fadePhoto > div > div > i {cursor:pointer;position: absolute;top:0;right:0; padding: 7px;font-size:20px;}
+#photoQuad, #photoMini {display:inline-block;position:relative;max-width:440px;max-height:440px;}
+#photoMini {max-width:440px;}
+#photoMini + div {width:120px;}
+#fadePhoto img { width: auto; height: auto; max-width: 100%; max-height: 100%;}
+#fadePhoto .cell {position:absolute; top: 0; left: 0;width:100%;height:100%;}
+#fadePhoto .cell > span {position:absolute;}
+#fadePhoto .cell > span:not(:nth-child(5)) {background:#000;opacity:0.5;}
+#fadePhoto .cell > span:nth-child(5) {border: 2px dashed #44749d;z-index:10;cursor:move;}
+#fadePhoto .cell > span:nth-child(2) {border-left: 2px dashed #fff;border-right: 2px dashed #fff;}
+#fadePhoto .cell > span:nth-child(4) {border-top: 2px dashed #fff;border-bottom: 2px dashed #fff;}
+#fadePhoto .cell > span:nth-child(6) {border-top: 2px dashed #fff;border-bottom: 2px dashed #fff;}
+#fadePhoto .cell > span:nth-child(8) {border-left: 2px dashed #fff;border-right: 2px dashed #fff;}
+#fadePhoto .cell > span > i {position:absolute;width:20px;height:20px;padding:2px;}
+#fadePhoto .cell > span > i:after {content: ' ';display:block;width:16px;height:16px;background:#44749d;}
+
+#fadePhoto .cell > span > i:nth-child(1) {cursor:nwse-resize;}
+#fadePhoto .cell > span > i:nth-child(2) {cursor:nesw-resize;}
+#fadePhoto .cell > span > i:nth-child(3) {cursor:nesw-resize;}
+#fadePhoto .cell > span > i:nth-child(4) {cursor:nwse-resize;}
+#fadePhoto .menu {margin-top:10px;text-align:right;}
+/*#fadePhLarge, */#fadePhMini {display:none;}
+#fadePhoto .thumb {padding:10px;}
+#photoThumb {width:100px;height:100px;}
+#fadePhLoad .load {text-align:center;	margin: 70px 0;}
+#fadePhLoad .load hr { position: relative; top: 35px; border: none; border-top: 1px solid #eaebec;}
+#fadePhLoad .load div {position: relative; z-index: 1;padding:10px;	display: inline-block; background: #fff;}

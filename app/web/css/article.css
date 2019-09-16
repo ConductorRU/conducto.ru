@@ -1,0 +1,6 @@
+.article .conBody {padding:20px;}
+.article .conBody h1 {text-align:center;}
+.article .conBar:not(.hidden) span[data-action="hide"] {display:block;}
+.article .conBar:not(.hidden) span[data-action="show"] {display:none;}
+.article .conBar.hidden span[data-action="hide"] {display:none;}
+.article .conBar.hidden span[data-action="show"] {display:block;}

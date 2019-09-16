@@ -1,0 +1,44 @@
+@import "const.scss";
+.chat
+{
+	position: absolute; top: 34px; bottom: 0; left: 0; right: 0; overflow: hidden;
+	#chat
+	{
+		position:absolute;top:0;left:0;right:0;bottom:150px;overflow: auto;border-bottom:1px solid $colBor;font-size:13px;
+		> div
+		{
+			cursor:pointer;padding:5px 0;
+			&:hover {background:#f0f2f3;}
+			> div{}
+			> .chatL
+			{
+				float:left;width:80px;
+			}
+			> .chatC
+			{
+				margin:0 80px;
+				.name
+				{
+					font-weight: bold;
+					> span {color: #bbb;}
+					> a {	color: $colMid; text-decoration: none;}
+				}
+			}
+			> .chatR
+			{
+				float:right;width:100px;
+				.date {text-align:right;font-size:11px;color:#bbb;padding-right:10px;}
+			}
+			&:after {content: " ";clear:both;}
+		}
+	}
+	> .form
+	{
+		position:absolute;left:0;right:0;bottom:0;height:150px;padding:10px 10px 20px;
+		.edit {border:1px solid $colBor;height:80px;overflow:auto;font-size:13px;	padding: 5px 7px;}
+		.buts
+		{
+				padding: 10px 0;text-align: right;
+		}
+	}
+}

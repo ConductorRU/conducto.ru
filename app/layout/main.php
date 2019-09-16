@@ -19,12 +19,16 @@ use core\dc\DC;
 	</head>
 	<body>
 	<?php $this->beginBody() ?>
-		<div id="app" class="wrap">
+		<div class="wrap">
+			<header><?= $this->render('_header') ?></header>
 			<page class="main">
+				<div class="userbar scrollwhite"><?= $this->render('_side', ['user' => DC::$app->user]) ?></div>
 				<div id="content"><?= $content ?></div>
 			</page>
 			<footer></footer>
 		</div>
+		<div id="error"><i class="fa fa-times"></i><div></div></div>
+		<div id="fade"></div>
 	<?php $this->endBody() ?>
 	</body>
 </html>

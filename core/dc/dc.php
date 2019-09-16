@@ -6,7 +6,7 @@ class DC
 	public $root = '/';
 	public $path = 'app';
 	public $layout = 'main';
-	public $config = null;
+	public $config = [];
 	public $request = null;
 	public $user = null;
 	public $dbs = [];
@@ -31,17 +31,15 @@ class DC
 	}
 	public function Print()
 	{
-		$route = DC::$app->config->Get('route');
-		if($route)
-			$rout = new Router($route);
+		if(isset($this->config['route']))
+			$rout = new Router($this->config['route']);
 		else
 			$rout = new Router();
 		$rout->Action();
 	}
 	public static function t($text, $module)
 	{
-		$lang = DC::$app->config->Get('lang');
-		if(!$lang)
+		if(!isset(static::$app->config['lang']))
 			return $text;
 		if(!isset(static::$app->langs[$module]))
 		{
@@ -55,16 +53,62 @@ class DC
 	public static function Run($path = '')
 	{
 		$dc = new DC;
-		$locPath = $path ? $path : $dc->path;
-		$dc->config = Config::Create($dc->root . $dc->path . '/config/common.php', $dc->root . $locPath . '/config/local.php');
+		include ($dc->root . $dc->path . '/config/common.php');
+		foreach($common as $key => $val)
+		{
+			$dc->config[$key] = [];
+			if(is_array($val))
+			{
+				foreach($val as $k => $v)
+				{
+					if($key == 'js' || $key == 'css')
+					{
+						$p = DC::$app->GetConfig('web');
+						if($p != '')
+							$p .= '/';
+						$v = '/' . $v;
+					}
+					if(is_integer($k))
+						$dc->config[$key][] = $v;
+					else
+						$dc->config[$key][$k] = $v;
+				}
+			}
+			else
+				$dc->config[$key] = $val;
+		}
 		if($path)
 			$dc->path = $path;
-		$userClass = $dc->config->Get('userClass');
-		if($userClass && $dc->session->get('email') && $dc->session->get('hash'))
+		include ($dc->root . $dc->path . '/config/local.php');
+		foreach($config as $key => $val)
 		{
-			if($userClass::IsExist())
+			if(!isset($dc->config[$key]))
+				$dc->config[$key] = [];
+			if(is_array($val))
 			{
-				$user = $userClass::GetByHash($dc->session->get('email'), $dc->session->get('hash'));
+				foreach($val as $k => $v)
+				{
+					if($key == 'js' || $key == 'css')
+					{
+						$p = DC::$app->GetConfig('web');
+						if($p != '')
+							$p .= '/';
+						$v = '/' . $v;
+					}
+					if(is_integer($k))
+						$dc->config[$key][] = $v;
+					else
+						$dc->config[$key][$k] = $v;
+				}
+			}
+			else
+				$dc->config[$key] = $val;
+		}
+		if(isset($dc->config["userClass"]) && $dc->session->get('email') && $dc->session->get('hash'))
+		{
+			if($dc->config["userClass"]::IsExist())
+			{
+				$user = $dc->config["userClass"]::GetByHash($dc->session->get('email'), $dc->session->get('hash'));
 				if($user)
 					$dc->user = $user;
 			}
@@ -72,21 +116,25 @@ class DC
 		$dc->request = new Request();
 		$dc->Print();
 	}
+	public function GetConfig($name)
+	{
+		if(isset($this->config[$name]))
+			return $this->config[$name];
+		return '';
+	}
 	public function GetRoot()
 	{
-		$root = DC::$app->config->Get('userClass');
-		if($root)
-			return $root;
+		if(isset($this->config['root']))
+			return $this->config['root'];
 		return $_SERVER['SERVER_NAME'];
 	}
 	public function __get($name) 
   {
 		if(isset($this->dbs[$name]))
 			return $this->dbs[$name];
-		$sql = DC::$app->config->Get('sql');
-		if(isset($sql[$name]))
+		if(isset($this->config['sql'][$name]))
 		{
-			$par = $sql[$name];
+			$par = $this->config['sql'][$name];
 			$db = new DB($par['localhost'], $par['user'], $par['password'], $par['database']);
 			if($db->sql->connect_error)
 			{

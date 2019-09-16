@@ -1,7 +1,9 @@
 <?php
-$this->addReady('vUpdate.items = ' . json_encode($files));
-?>
-<div class="row" v-for="(item, index) in items">
-	<div class="name">{{item.name}}</div>
-	<div class="red"><i class="fa fa-times" v-if="item.val" v-on:click="Delete(index)"></i><i class="fa fa-minus-circle" v-if="!item.val" v-on:click="Down(index)"></i></div>
-</div>
+$this->addReady('$(".updates .fa-times").click(function() {upd.Delete(this);});');
+$this->addReady('$(".updates .fa-minus-circle").click(function() {upd.Down(this);});');
+foreach($files as $name => $val): ?>
+<div class="row">
+	<div class="name"><?= $name ?></div>
+	<div class="<?= $val ? 'red' : 'green' ?>"><i class="fa fa-<?= $val ? 'times': 'minus-circle' ?>"></i></div>
+</div><?php
+endforeach ?>

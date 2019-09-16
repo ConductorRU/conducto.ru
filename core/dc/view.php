@@ -15,15 +15,16 @@ class View
 	public $code = ['', ''];
 	private function printAdds($n)
 	{
+		$web = DC::$app->GetConfig('web');
 		$t = '?' . DC::$app->version;
-		$web = DC::$app->config->Get('web');
-		$web = $web ? '/' . $web : '';
+		if($web != '')
+			$web = '/' . $web;
 		foreach($this->adds[$n] as $c)
 		{
 			if($c['type'] == 'css')
 				echo '<style type="text/css">' . $c['text'] . '</style>';
 			if($c['type'] == 'css_file')
-				echo '<link rel="stylesheet" type="text/css" href="'. $web . '/css/' . $c['text'] . $t . '">';
+				echo '<link rel="stylesheet" type="text/css" href="' . $web . '/css/' . $c['text'] . $t . '">';
 			if($c['type'] == 'js')
 				echo '<script>' . $c['text'] . '</script>';
 			if($c['type'] == 'js_file')
@@ -41,12 +42,13 @@ class View
 	}
 	public function head()
 	{
-		$js = DC::$app->config->GetJS(View::HEAD);
-		$css = DC::$app->config->GetCSS();
-		foreach($js as $f)
-			echo '<script src="' . $f . '"></script>' . "\n";
-		foreach($css as $f)
-			echo '<link rel="stylesheet" type="text/css" href="' . $f . '">' . "\n";	
+		$t = '?' . DC::$app->version;
+		if(isset(DC::$app->config['js']))
+			foreach(DC::$app->config['js'] as $js)
+				echo '<script src="' . $js . $t . '"></script>' . "\n";
+		if(isset(DC::$app->config['css']))
+			foreach(DC::$app->config['css'] as $css)
+				echo '<link rel="stylesheet" type="text/css" href="' . $css . $t . '">' . "\n";	
 		$this->printAdds(0);
 	}
 	public function beginBody()
@@ -58,12 +60,9 @@ class View
 	{
 		echo $this->code[1];
 		$this->printAdds(2);
-		$js = DC::$app->config->GetJS(View::END);
-		foreach($js as $f)
-			echo '<script src="' . $f . '"></script>' . "\n";
 		if(count($this->ready))
 		{
-			echo '<script> window.addEventListener("load", function(event) {' . "\n\r";
+			echo '<script> $(document).ready(function() {' . "\n\r";
 			foreach($this->ready as $c)
 				echo $c . "\n\r";
 			echo '});</script>';

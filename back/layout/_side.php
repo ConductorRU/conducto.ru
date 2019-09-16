@@ -2,6 +2,7 @@
 	use core\DC\DC;
 	use core\DC\View;
 	$url = DC::$app->request->url;
+	$this->addReady('$("aside > a").click(function() { $(this).siblings().removeClass("sel"); $(this).addClass("sel"); })');
 	$refs =
 	[
 		['url' => '', 'icon' => 'fa-user-circle', 'name' => 'Главная'],

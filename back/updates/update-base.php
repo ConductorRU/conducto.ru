@@ -17,7 +17,10 @@ class UpdateBase
 				$m = null;
 				if($isTable)
 					$m = Update::FindWhere('name ="' . $name . '"');
-				$files[] = ['name' => $name, 'val' => $m ? 0 : 1];
+				if($m)
+					$files[$name] = 0;
+				else
+					$files[$name] = 1;
 			}
 		return $files;
 	}
@@ -117,7 +120,6 @@ class UpdateBase
 		if($isMig)
 		{
 			$db->DropTable('user');
-			$db->DropTable('entity');
 			$db->DropTable('update');
 		}
 	}
@@ -132,15 +134,15 @@ class UpdateBase
 		if($down == 0)
 		{
 			$files = self::getFiles();
-			foreach($files as $v)
+			foreach($files as $k => $v)
 			{
-				if($v['val'])
+				if($v)
 				{
-					$t = '\\back\\updates\\' . $v['name'];
+					$t = '\\back\\updates\\' . $k;
 					$cur = new $t();
 					$cur->up();
 					$m = new Update;
-					$m->name = $v['name'];
+					$m->name = $k;
 					$m->created_at = date('Y-m-d H:i:s');
 					$m->Save();
 					++$cnt;
@@ -149,7 +151,7 @@ class UpdateBase
 		}
 		else
 		{
-			$all = Update::FindWhere()->orderBy('version desc')->limit($down)->all();
+			$all = Update::find()->orderBy('version desc')->limit($down)->all();
 			foreach($all as $al)
 			{
 				$t = '\\back\\updates\\' . $al->version;

@@ -1,5 +1,4 @@
 <?php
-use core\dc\View;
 $config =
 [
 	'lang' => 'ru-RU',
@@ -32,6 +31,6 @@ $config =
 		'friends<id:\d+>/<action>' => 'friends/<action>',
 		'post/<controller>/<action>' => 'post/<controller>/<action>',
 	],
-	'css' => ['css/main.min.css'],
-	'js' => ['js/main.js' => ['pos' => View::END], 'js/chat.js' => ['pos' => View::END]],
+	'css' => ['css/main.css'],
+	'js' => ['js/main.js'],
 ];

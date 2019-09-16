@@ -9,7 +9,7 @@ class Request
 	function __construct()
 	{
 		$this->uri = $_SERVER['REQUEST_URI'];
-		$this->uri = preg_replace('/^\/' . DC::$app->config->Get('web') . '/', '', $this->uri);
+		$this->uri = preg_replace('/^\/' . DC::$app->GetConfig('web') . '/', '', $this->uri);
 		$v = explode('?', $this->uri);
 		$this->url = preg_replace('/^\//', '', $v[0]);
 		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
@@ -18,8 +18,7 @@ class Request
 			$this->params = $_GET;
 		else if($_SERVER['REQUEST_METHOD'] == 'POST')
 		{
-			$json = json_decode(file_get_contents('php://input'), true);
-			$this->params = $json ? array_merge($_GET, $_POST, $json) : array_merge($_GET, $_POST);
+			$this->params = array_merge($_GET, $_POST);
 			$this->isPost = true;
 		}
 	}

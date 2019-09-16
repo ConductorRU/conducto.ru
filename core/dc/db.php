@@ -9,41 +9,23 @@ class DB
 {
 	private $tableData = [];
 	public $sql;
-	static public $cacheTable = [];
+	public $cacheTable = [];
 	public function __construct($localhost, $user, $password, $dbname)
 	{
 		$this->sql = new \mysqli($localhost, $user, $password, $dbname);
 		$this->sql->set_charset('utf8');
 	}
-	public static function SetTableToCache($tableName, $fields, $incField = '')
+	public function SetTableToCache($tableName, $fields, $incField = '')
 	{
 		$f = new DBTable;
 		$f->fields = $fields;
 		$f->incField = $incField;
-		static::$cacheTable[$tableName] = $f;
+		$cacheTable[$tableName] = $f;
 		return $f;
 	}
-	public static function GetTableToCache($tableName)
+	public function GetTableToCache($tableName)
 	{
-		return isset(static::$cacheTable[$tableName]) ? static::$cacheTable[$tableName] : null;
-	}
-	public function GetTableData($tableName)
-	{
-		$table = DB::GetTableToCache($tableName);
-		if(!$table)
-		{
-			$cols = $this->GetColumns($tableName);
-			$incField = '';
-			$fields = [];
-			foreach($cols as $col)
-			{
-				if($col['Extra'] =='auto_increment')
-					$incField = $col['Field'];
-				$fields[$col['Field']] = null;
-			}
-			$table = DB::SetTableToCache($tableName, $fields, $incField);
-		}
-		return $table;
+		return isset($cacheTable[$tableName]) ? $cacheTable[$tableName] : null;
 	}
 	public function e($t)
 	{
@@ -81,10 +63,10 @@ class DB
 	}
 	public function GetColumns($table)
 	{
-		if(isset($this->tableData[$table]))
-			return $this->tableData[$table];
+		if(isset($tableData[$table]))
+			return $tableData[$table];
 		$rows = $this->query('SHOW COLUMNS FROM `' . $table . '`')->fetch_all(MYSQLI_ASSOC);
-		$this->tableData[$table] = $rows;
+		$tableData[$table] = $rows;
 		return $rows;
 	}
 	public function IsTable($table)

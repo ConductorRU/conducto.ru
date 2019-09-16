@@ -8,6 +8,7 @@ class BaseController extends Controller
 {
 	public function beforeAction()
 	{
-		
+		Visit::AddVisit();
+		Anonym::Get(false);
 	}
 }
